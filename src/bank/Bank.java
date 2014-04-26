@@ -18,19 +18,23 @@ import bank.ui.BankInterface;
  * @author Ingrid Nunes
  * 
  */
-public abstract class Bank {
+public abstract class Bank 
+{
 
 	public static final String PROPERTIES_FILE_LOG4J = "log4j.properties";
 	public static final String TEXT_FLAG = "-t";
 
-	public static void main(String[] args) throws Exception {
-		PropertyConfigurator.configure(Bank.class
-				.getResource(PROPERTIES_FILE_LOG4J));
+	public static void main(String[] args) throws Exception 
+	{
+		PropertyConfigurator.configure(Bank.class.getResource(PROPERTIES_FILE_LOG4J));
 
 		Bank bank = null;
-		if (args != null && args.length > 0 && TEXT_FLAG.equals(args[0])) {
+		if (args != null && args.length > 0 && TEXT_FLAG.equals(args[0]))
+		{
 			bank = new BankText();
-		} else {
+		}
+		else
+		{
 			bank = new BankGraphic();
 		}
 		bank.showUI();
@@ -38,7 +42,8 @@ public abstract class Bank {
 
 	protected final List<BankInterface> bankInterfaces;
 
-	public Bank() {
+	public Bank() 
+	{
 		Database database = new Database();
 
 		AccountManagementService accountManagementService = new AccountManagementServiceImpl(

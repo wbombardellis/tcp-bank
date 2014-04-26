@@ -15,7 +15,8 @@ import org.apache.commons.logging.LogFactory;
  * @author Ingrid Nunes
  * 
  */
-public class TextManager {
+public class TextManager
+{
 
 	public static final Locale LANGUAGE[] = { new Locale("en", "US"),
 			new Locale("pt", "BR") };
@@ -30,15 +31,18 @@ public class TextManager {
 	private Locale locale;
 	private Log log;
 
-	public TextManager(String baseName) {
+	public TextManager(String baseName)
+	{
 		this(baseName, Locale.getDefault());
 	}
 
-	public TextManager(String baseName, Integer language) {
+	public TextManager(String baseName, Integer language)
+	{
 		this(baseName, LANGUAGE[language]);
 	}
 
-	public TextManager(String baseName, Locale locale) {
+	public TextManager(String baseName, Locale locale)
+	{
 		this.log = LogFactory.getLog(this.getClass());
 		this.locale = locale;
 		setBaseName(baseName);
@@ -55,7 +59,8 @@ public class TextManager {
 	/**
 	 * @return the bundle
 	 */
-	public ResourceBundle getBundle() {
+	public ResourceBundle getBundle()
+	{
 		return bundle;
 	}
 

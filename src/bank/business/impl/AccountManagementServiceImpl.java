@@ -19,12 +19,13 @@ import bank.util.RandomString;
  * @author Ingrid Nunes
  * 
  */
-public class AccountManagementServiceImpl implements AccountManagementService {
-
+public class AccountManagementServiceImpl implements AccountManagementService
+{
 	private final Database database;
 	private RandomString random;
 
-	public AccountManagementServiceImpl(Database database) {
+	public AccountManagementServiceImpl(Database database)
+	{
 		this.database = database;
 		this.random = new RandomString(8);
 	}
@@ -32,15 +33,15 @@ public class AccountManagementServiceImpl implements AccountManagementService {
 	@Override
 	public CurrentAccount createCurrentAccount(long branch, String name,
 			String lastName, int cpf, Date birthday, double balance)
-			throws BusinessException {
-		OperationLocation operationLocation = database
-				.getOperationLocation(branch);
-		if (operationLocation == null || !(operationLocation instanceof Branch)) {
+			throws BusinessException
+	{
+		OperationLocation operationLocation = database.getOperationLocation(branch);
+		if (operationLocation == null || !(operationLocation instanceof Branch))
+		{
 			throw new BusinessException("exception.invalid.branch");
 		}
 
-		Client client = new Client(name, lastName, cpf, random.nextString(),
-				birthday);
+		Client client = new Client(name, lastName, cpf, random.nextString(),birthday);
 		CurrentAccount currentAccount = new CurrentAccount(
 				(Branch) operationLocation,
 				database.getNextCurrentAccountNumber(), client, balance);

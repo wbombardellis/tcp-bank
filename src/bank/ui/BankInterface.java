@@ -16,40 +16,48 @@ import bank.business.domain.OperationLocation;
  * @author Ingrid Nunes
  * 
  */
-public abstract class BankInterface {
+public abstract class BankInterface 
+{
 
 	protected final Map<String, UIAction> actions;
 	private Credentials credentials;
 	protected final OperationLocation location;
 	protected final Log log;
 
-	protected BankInterface(OperationLocation location) {
+	protected BankInterface(OperationLocation location)
+	{
 		this.log = LogFactory.getLog(getClass());
 		this.location = location;
 		this.actions = new LinkedHashMap<>();
 	}
 
-	protected void addAction(String code, UIAction action) {
+	protected void addAction(String code, UIAction action)
+	{
 		this.actions.put(code, action);
 	}
 
 	public abstract void createAndShowUI();
 
-	protected Credentials getCredentials() {
+	protected Credentials getCredentials()
+	{
 		return credentials;
 	}
 
-	public OperationLocation getOperationLocation() {
+	public OperationLocation getOperationLocation()
+	{
 		return location;
 	}
 
-	public boolean isLoggedIn() {
+	public boolean isLoggedIn()
+	{
 		return this.credentials != null;
 	}
 
-	public void login(Credentials credentials) {
+	public void login(Credentials credentials)
+	{
 		this.credentials = credentials;
-		if (isLoggedIn()) {
+		if (isLoggedIn())
+		{
 			toggleActions();
 		}
 	}
@@ -63,8 +71,10 @@ public abstract class BankInterface {
 
 	public abstract Long readCurrentAccountNumber();
 
-	protected void toggleActions() {
-		for (UIAction action : actions.values()) {
+	protected void toggleActions()
+	{
+		for (UIAction action : actions.values())
+		{
 			action.setEnabled(!action.isEnabled());
 		}
 	}
