@@ -6,7 +6,8 @@ import java.util.Date;
  * @author Ingrid Nunes
  * 
  */
-public abstract class Transaction {
+public abstract class Transaction
+{
 
 	private CurrentAccount account;
 	private double amount;
@@ -14,7 +15,8 @@ public abstract class Transaction {
 	private OperationLocation location;
 
 	protected Transaction(OperationLocation location, CurrentAccount account,
-			double amount) {
+			double amount)
+	{
 		this.location = location;
 		this.date = new Date(System.currentTimeMillis());
 		this.account = account;
@@ -24,7 +26,8 @@ public abstract class Transaction {
 	/**
 	 * @return the account
 	 */
-	public CurrentAccount getAccount() {
+	public CurrentAccount getAccount() 
+	{
 		return account;
 	}
 

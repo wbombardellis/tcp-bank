@@ -7,12 +7,11 @@ package bank.ui;
  * @author ingrid
  * 
  */
-public interface UIAction {
-
+public interface UIAction
+{
 	public abstract void execute() throws Exception;
 
 	public boolean isEnabled();
 
 	public void setEnabled(boolean isEnabled);
-
 }

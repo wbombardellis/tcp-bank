@@ -19,58 +19,66 @@ import bank.ui.text.UIUtils;
  * @author ingrid
  * 
  */
-public class BankText extends Bank {
+public class BankText extends Bank
+{
 
 	protected final BufferedReader reader;
 
-	public BankText() {
+	public BankText()
+	{
 		this.reader = new BufferedReader(new InputStreamReader(System.in));
 	}
 
 	@Override
-	public BankInterface createATMInterface(ATM atm,
-			AccountOperationServiceImpl accountOperationService) {
+	public BankInterface createATMInterface(ATM atm,AccountOperationServiceImpl accountOperationService)
+	{
 		return new ATMInterface(atm, accountOperationService);
 	}
 
 	@Override
 	public BankInterface createBranchInterface(Branch branch,
 			AccountManagementService accountManagementService,
-			AccountOperationServiceImpl accountOperationService) {
+			AccountOperationServiceImpl accountOperationService)
+	{
 		return new BranchInterface(branch, accountManagementService,
 				accountOperationService);
 	}
 
-	private String getMenu() {
+	private String getMenu()
+	{
 		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < bankInterfaces.size(); i++) {
+		for (int i = 0; i < bankInterfaces.size(); i++)
+		{
 			BankInterface bi = bankInterfaces.get(i);
 			sb.append(i + 1).append(" - ");
-			if (bi instanceof BranchInterface) {
+			if (bi instanceof BranchInterface)
+			{
 				sb.append(((Branch) bi.getOperationLocation()).getName());
-			} else {
+			}
+			else
+			{
 				assert bi instanceof ATMInterface;
 				sb.append("ATM ").append(bi.getOperationLocation().getNumber());
 			}
 			sb.append("\n");
 		}
-		sb.append(UIUtils.INSTANCE.getTextManager().getText(
-				"message.choose.bank.interface")
-				+ ": ");
+		sb.append(UIUtils.INSTANCE.getTextManager().getText("message.choose.bank.interface")+ ": ");
 		return sb.toString();
 	}
 
-	public void showUI() {
+	public void showUI()
+	{
 		UIUtils uiUtils = UIUtils.INSTANCE;
 		System.out.print(getMenu());
 		Integer option = uiUtils.readInteger(null);
-		while (option != 0) {
-			if (option > 0 && option <= bankInterfaces.size()) {
+		while (option != 0)
+		{
+			if (option > 0 && option <= bankInterfaces.size())
+			{
 				this.bankInterfaces.get(option - 1).createAndShowUI();
 			}
 			System.out.print(getMenu());
 			option = uiUtils.readInteger(null);
 		}
 	}
-
 }

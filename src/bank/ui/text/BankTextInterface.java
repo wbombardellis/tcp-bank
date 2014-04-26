@@ -11,15 +11,17 @@ import bank.ui.text.command.Command;
  * @author Ingrid Nunes
  * 
  */
-public abstract class BankTextInterface extends BankInterface {
-
+public abstract class BankTextInterface extends BankInterface
+{
 	public static final String EXIT_CODE = "E";
 
-	protected BankTextInterface(OperationLocation location) {
+	protected BankTextInterface(OperationLocation location)
+	{
 		super(location);
 	}
 
-	public void createAndShowUI() {
+	public void createAndShowUI()
+	{
 		UIUtils uiUtils = UIUtils.INSTANCE;
 		String commandKey = null;
 		do {
@@ -44,7 +46,8 @@ public abstract class BankTextInterface extends BankInterface {
 		}
 	}
 
-	protected String getMenu(TextManager textManager) {
+	protected String getMenu(TextManager textManager)
+	{
 		StringBuffer sb = new StringBuffer();
 		sb.append(textManager.getText("message.options", EXIT_CODE, false))
 				.append(":\n");

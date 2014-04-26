@@ -18,7 +18,8 @@ import bank.ui.TextManager;
  * @author ingrid
  * 
  */
-public class UIUtils {
+public class UIUtils
+{
 
 	public static final String DATE_FORMAT = "dd/MM/yyyy";
 	public static final String DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
@@ -31,7 +32,8 @@ public class UIUtils {
 	private final SimpleDateFormat sdtf;
 	private final TextManager textManager;
 
-	private UIUtils() {
+	private UIUtils()
+	{
 		this.log = LogFactory.getLog(getClass());
 		this.reader = new BufferedReader(new InputStreamReader(System.in));
 		this.textManager = new TextManager(PROPERTY_RESOURCE_BUNDLE);
@@ -39,29 +41,34 @@ public class UIUtils {
 		this.sdtf = new SimpleDateFormat(DATE_TIME_FORMAT);
 	}
 
-	public String formatDateTime(Date value) {
+	public String formatDateTime(Date value)
+	{
 		return sdtf.format(value);
 	}
 
 	/**
 	 * @return the textManager
 	 */
-	public TextManager getTextManager() {
+	public TextManager getTextManager()
+	{
 		return textManager;
 	}
 
-	public void handleUnexceptedError(Exception e) {
+	public void handleUnexceptedError(Exception e)
+	{
 		System.out.println(textManager.getText("exception.unexpected"));
 		log.error(e);
 		e.printStackTrace();
 		System.exit(-1);
 	}
 
-	public String propertyToString(String field, Date value) {
+	public String propertyToString(String field, Date value)
+	{
 		return propertyToString(field, sdf.format(value));
 	}
 
-	public String propertyToString(String field, double value) {
+	public String propertyToString(String field, double value)
+	{
 		return propertyToString(field, new Double(value).toString());
 	}
 
@@ -85,11 +92,14 @@ public class UIUtils {
 
 	public Date readDate(String field, boolean allowsEmpty) {
 		Date value = null;
-		while (value == null) {
-			try {
+		while (value == null)
+		{
+			try
+			{
 				System.out.print(textManager.getText(field) + ": ");
 				String str = reader.readLine();
-				if ((str == null || str.isEmpty()) && allowsEmpty) {
+				if ((str == null || str.isEmpty()) && allowsEmpty)
+				{
 					return null;
 				} else {
 					value = sdf.parse(str);
@@ -105,17 +115,23 @@ public class UIUtils {
 		return value;
 	}
 
-	public Double readDouble(String field) {
+	public Double readDouble(String field)
+	{
 		Double value = null;
-		while (value == null) {
-			try {
+		while (value == null)
+		{
+			try
+			{
 				System.out.print(textManager.getText(field) + ": ");
 				value = new Double(reader.readLine());
-			} catch (NumberFormatException nfe) {
-				System.out.println(textManager
-						.getText("exception.double.format"));
+			}
+			catch (NumberFormatException nfe)
+			{
+				System.out.println(textManager.getText("exception.double.format"));
 				log.warn(nfe);
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				handleUnexceptedError(e);
 			}
 		}

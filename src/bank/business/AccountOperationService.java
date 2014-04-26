@@ -16,11 +16,12 @@ import bank.business.domain.Withdrawal;
  * @author Ingrid Nunes
  * 
  */
-public interface AccountOperationService {
+public interface AccountOperationService
+{
 
 	public Deposit deposit(long operationLocation, long branch,
-			long accountNumber, long envelope, double amount)
-			throws BusinessException;
+							long accountNumber, long envelope, double amount)
+							throws BusinessException;
 
 	public double getBalance(long branch, long accountNumber)
 			throws BusinessException;

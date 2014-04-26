@@ -4,12 +4,14 @@ package bank.business.domain;
  * @author Ingrid Nunes
  * 
  */
-public class Deposit extends Transaction {
+public class Deposit extends Transaction
+{
 
 	private long envelope;
 
 	public Deposit(OperationLocation location, CurrentAccount account,
-			long envelope, double amount) {
+			long envelope, double amount)
+	{
 		super(location, account, amount);
 		this.envelope = envelope;
 	}
@@ -17,7 +19,8 @@ public class Deposit extends Transaction {
 	/**
 	 * @return the envelope
 	 */
-	public long getEnvelope() {
+	public long getEnvelope()
+	{
 		return envelope;
 	}
 

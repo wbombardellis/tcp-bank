@@ -26,22 +26,24 @@ import bank.data.Database;
  * @author Ingrid Nunes
  * 
  */
-public class AccountOperationServiceImpl implements AccountOperationService {
+public class AccountOperationServiceImpl implements AccountOperationService
+{
 
 	private final Database database;
 
-	public AccountOperationServiceImpl(Database database) {
+	public AccountOperationServiceImpl(Database database)
+	{
 		this.database = database;
 	}
 
 	@Override
 	public Deposit deposit(long operationLocation, long branch,
 			long accountNumber, long envelope, double amount)
-			throws BusinessException {
-		CurrentAccount currentAccount = readCurrentAccount(branch,
-				accountNumber);
-		Deposit deposit = currentAccount.deposit(
-				getOperationLocation(operationLocation), envelope, amount);
+			throws BusinessException
+	{
+		CurrentAccount currentAccount = readCurrentAccount(branch,accountNumber);
+		Deposit deposit = currentAccount.deposit(getOperationLocation(operationLocation), envelope, amount);
+		
 		return deposit;
 	}
 

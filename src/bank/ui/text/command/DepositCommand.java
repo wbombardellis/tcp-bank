@@ -9,18 +9,20 @@ import bank.ui.text.UIUtils;
  * @author Ingrid Nunes
  * 
  */
-public class DepositCommand extends Command {
-
+public class DepositCommand extends Command
+{
 	private final AccountOperationService accountOperationService;
 
 	public DepositCommand(BankTextInterface bankInterface,
-			AccountOperationService accountOperationService) {
+			AccountOperationService accountOperationService)
+	{
 		super(bankInterface);
 		this.accountOperationService = accountOperationService;
 	}
 
 	@Override
-	public void execute() throws Exception {
+	public void execute() throws Exception
+	{
 		Long branch = bankInterface.readBranchId();
 		Long accountNumber = bankInterface.readCurrentAccountNumber();
 		Long envelope = UIUtils.INSTANCE.readLong("envelope");

@@ -18,7 +18,8 @@ public class CurrentAccount implements Credentials {
 	private List<Transfer> transfers;
 	private List<Withdrawal> withdrawals;
 
-	public CurrentAccount(Branch branch, long number, Client client) {
+	public CurrentAccount(Branch branch, long number, Client client)
+	{
 		this.id = new CurrentAccountId(branch, number);
 		branch.addAccount(this);
 		this.client = client;
@@ -29,13 +30,14 @@ public class CurrentAccount implements Credentials {
 	}
 
 	public CurrentAccount(Branch branch, long number, Client client,
-			double initialBalance) {
+			double initialBalance)
+	{
 		this(branch, number, client);
 		this.balance = initialBalance;
 	}
 
-	public Deposit deposit(OperationLocation location, long envelope,
-			double amount) throws BusinessException {
+	public Deposit deposit(OperationLocation location, long envelope,double amount) throws BusinessException
+	{
 		depositAmount(amount);
 
 		Deposit deposit = new Deposit(location, this, envelope, amount);
@@ -44,13 +46,17 @@ public class CurrentAccount implements Credentials {
 		return deposit;
 	}
 
-	private void depositAmount(double amount) throws BusinessException {
-		if (!isValidAmount(amount)) {
+	private void depositAmount(double amount) throws BusinessException
+	{
+		if (!isValidAmount(amount))
+		{
 			throw new BusinessException("exception.invalid.amount");
 		}
-
-		this.balance += amount;
-	}
+		else
+		{
+			this.balance += amount;
+		}
+}
 
 	/**
 	 * @return the balance

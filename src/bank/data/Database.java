@@ -37,12 +37,14 @@ public class Database {
 		this(true);
 	}
 
-	public Database(boolean initData) {
+	public Database(boolean initData)
+	{
 		this.log = LogFactory.getLog(getClass());
 		this.operationLocations = new HashMap<>();
 		this.employees = new HashMap<>();
 		this.currentAccounts = new HashMap<>();
-		if (initData) {
+		if (initData)
+		{
 			initData();
 		}
 	}
@@ -67,7 +69,8 @@ public class Database {
 		return employees.get(username);
 	}
 
-	public long getNextCurrentAccountNumber() {
+	public long getNextCurrentAccountNumber()
+	{
 		// I'm assuming that numbers are sequential and no deletions are
 		// performed.
 		return currentAccounts.size() + 1;
@@ -77,8 +80,10 @@ public class Database {
 		return operationLocations.get(number);
 	}
 
-	private void initData() {
-		try {
+	private void initData()
+	{
+		try 
+		{
 			// Operation Location
 			int olId = 0;
 			Branch b1 = new Branch(++olId, "Campus Vale");
@@ -140,11 +145,13 @@ public class Database {
 		cal.add(Calendar.MINUTE, r.nextInt(30));
 	}
 
-	public void save(CurrentAccount currentAccount) {
+	public void save(CurrentAccount currentAccount)
+	{
 		this.currentAccounts.put(currentAccount.getId(), currentAccount);
 	}
 
-	public void save(Employee employee) {
+	public void save(Employee employee)
+	{
 		this.employees.put(employee.getUsername(), employee);
 	}
 
