@@ -6,6 +6,7 @@ package bank.business;
 import java.util.Date;
 import java.util.List;
 
+import bank.business.domain.CellPhoneRecharge;
 import bank.business.domain.CurrentAccount;
 import bank.business.domain.Deposit;
 import bank.business.domain.Transaction;
@@ -40,5 +41,8 @@ public interface AccountOperationService {
 
 	public Withdrawal withdrawal(long operationLocation, long branch,
 			long accountNumber, double amount) throws BusinessException;
+	
+	public CellPhoneRecharge rechargeCellPhone(long operationLocation, long branch,
+			long accountNumber, String phoneCarrier, String phoneNumber, double amount) throws BusinessException;
 
 }

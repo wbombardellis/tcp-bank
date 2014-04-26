@@ -13,6 +13,7 @@ import java.util.List;
 import bank.business.AccountOperationService;
 import bank.business.BusinessException;
 import bank.business.domain.Branch;
+import bank.business.domain.CellPhoneRecharge;
 import bank.business.domain.CurrentAccount;
 import bank.business.domain.CurrentAccountId;
 import bank.business.domain.Deposit;
@@ -162,6 +163,19 @@ public class AccountOperationServiceImpl implements AccountOperationService {
 		Withdrawal withdrawal = currentAccount.withdrawal(
 				getOperationLocation(operationLocation), amount);
 		return withdrawal;
+	}
+
+	@Override
+	public CellPhoneRecharge rechargeCellPhone(long operationLocation,
+			long branch, long accountNumber, String phoneCarrier,
+			String phoneNumber, double amount) throws BusinessException {
+		
+		CurrentAccount currentAccount = readCurrentAccount(branch,
+				accountNumber);
+		
+		OperationLocation location = getOperationLocation(operationLocation);
+		
+		return currentAccount.rechargeCellPhone(location, phoneCarrier, phoneNumber, amount);
 	}
 
 }

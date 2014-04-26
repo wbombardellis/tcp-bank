@@ -17,6 +17,7 @@ public class CurrentAccount implements Credentials {
 	private CurrentAccountId id;
 	private List<Transfer> transfers;
 	private List<Withdrawal> withdrawals;
+	private List<CellPhoneRecharge> cellPhoneRecharges;
 
 	public CurrentAccount(Branch branch, long number, Client client) {
 		this.id = new CurrentAccountId(branch, number);
@@ -26,6 +27,7 @@ public class CurrentAccount implements Credentials {
 		this.deposits = new ArrayList<>();
 		this.transfers = new ArrayList<>();
 		this.withdrawals = new ArrayList<>();
+		this.cellPhoneRecharges = new ArrayList<>();
 	}
 
 	public CurrentAccount(Branch branch, long number, Client client,
@@ -86,6 +88,7 @@ public class CurrentAccount implements Credentials {
 		transactions.addAll(deposits);
 		transactions.addAll(withdrawals);
 		transactions.addAll(transfers);
+		transactions.addAll(cellPhoneRecharges);
 		return transactions;
 	}
 
@@ -145,6 +148,21 @@ public class CurrentAccount implements Credentials {
 		}
 
 		this.balance -= amount;
+	}
+
+	public List<CellPhoneRecharge> getCellPhoneRecharges() {
+		return cellPhoneRecharges;
+	}
+	
+	public CellPhoneRecharge rechargeCellPhone(OperationLocation location,
+			String phoneCarrier,String phoneNumber, double amount) throws BusinessException {
+		withdrawalAmount(amount);
+		
+		CellPhoneRecharge cellPhoneRecharge = new CellPhoneRecharge(location, this, phoneCarrier, phoneNumber, amount);
+		
+		this.cellPhoneRecharges.add(cellPhoneRecharge);
+
+		return cellPhoneRecharge;
 	}
 
 }
