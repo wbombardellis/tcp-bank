@@ -4,6 +4,7 @@ import bank.business.AccountManagementService;
 import bank.business.AccountOperationService;
 import bank.business.domain.Branch;
 import bank.ui.text.command.BalanceCommand;
+import bank.ui.text.command.CellPhoneRechargeCommand;
 import bank.ui.text.command.CreateAccountCommand;
 import bank.ui.text.command.DepositCommand;
 import bank.ui.text.command.EmployeeLoginCommand;
@@ -32,6 +33,7 @@ public class BranchInterface extends BankTextInterface {
 		this.addAction("W",
 				new WithdrawalCommand(this, accountOperationService));
 		this.addAction("T", new TransferCommand(this, accountOperationService));
+		this.addAction("R", new CellPhoneRechargeCommand(this, accountOperationService));
 		this.addAction("O", new LogoutCommand(this));
 	}
 
