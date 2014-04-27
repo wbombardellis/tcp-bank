@@ -14,5 +14,4 @@ public interface UIAction{
 	public boolean isEnabled();
 
 	public void setEnabled(boolean isEnabled);
-
 }

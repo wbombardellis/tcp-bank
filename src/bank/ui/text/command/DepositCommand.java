@@ -16,7 +16,8 @@ public class DepositCommand extends Command implements FavoritableAction {
 	private Double amount;
 
 	public DepositCommand(BankTextInterface bankInterface,
-			AccountOperationService accountOperationService) {
+			AccountOperationService accountOperationService)
+	{
 		super(bankInterface);
 		this.accountOperationService = accountOperationService;
 	}

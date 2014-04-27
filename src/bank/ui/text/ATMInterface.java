@@ -13,6 +13,7 @@ import bank.business.domain.CurrentAccount;
 import bank.ui.TextManager;
 import bank.ui.UIAction;
 import bank.ui.text.command.BalanceCommand;
+import bank.ui.text.command.CellPhoneRechargeCommand;
 import bank.ui.text.command.ClientLoginCommand;
 import bank.ui.text.command.Command;
 import bank.ui.text.command.DeleteFavoriteAction;
@@ -48,6 +49,7 @@ public class ATMInterface extends BankTextInterface {
 		this.addAction("W",
 				new WithdrawalCommand(this, accountOperationService), true);
 		this.addAction("T", new TransferCommand(this, accountOperationService), true);
+		this.addAction("R", new CellPhoneRechargeCommand(this, accountOperationService));
 		this.addAction("O", new LogoutCommand(this), false);
 		
 	}

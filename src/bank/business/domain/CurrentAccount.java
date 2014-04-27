@@ -19,8 +19,10 @@ public class CurrentAccount implements Credentials {
 	private List<Transfer> transfers;
 	private List<Withdrawal> withdrawals;
 	private List<FavoritableAction> favoriteActions;
+	private List<CellPhoneRecharge> cellPhoneRecharges;
 
-	public CurrentAccount(Branch branch, long number, Client client) {
+	public CurrentAccount(Branch branch, long number, Client client)
+	{
 		this.id = new CurrentAccountId(branch, number);
 		branch.addAccount(this);
 		this.client = client;
@@ -29,16 +31,18 @@ public class CurrentAccount implements Credentials {
 		this.transfers = new ArrayList<>();
 		this.withdrawals = new ArrayList<>();
 		this.favoriteActions = new ArrayList<>();
+		this.cellPhoneRecharges = new ArrayList<>();
 	}
 
 	public CurrentAccount(Branch branch, long number, Client client,
-			double initialBalance) {
+			double initialBalance)
+	{
 		this(branch, number, client);
 		this.balance = initialBalance;
 	}
 
-	public Deposit deposit(OperationLocation location, long envelope,
-			double amount) throws BusinessException {
+	public Deposit deposit(OperationLocation location, long envelope,double amount) throws BusinessException
+	{
 		depositAmount(amount);
 
 		Deposit deposit = new Deposit(location, this, envelope, amount);
@@ -47,13 +51,17 @@ public class CurrentAccount implements Credentials {
 		return deposit;
 	}
 
-	private void depositAmount(double amount) throws BusinessException {
-		if (!isValidAmount(amount)) {
+	private void depositAmount(double amount) throws BusinessException
+	{
+		if (!isValidAmount(amount))
+		{
 			throw new BusinessException("exception.invalid.amount");
 		}
-
-		this.balance += amount;
-	}
+		else
+		{
+			this.balance += amount;
+		}
+}
 
 	/**
 	 * @return the balance
@@ -89,6 +97,7 @@ public class CurrentAccount implements Credentials {
 		transactions.addAll(deposits);
 		transactions.addAll(withdrawals);
 		transactions.addAll(transfers);
+		transactions.addAll(cellPhoneRecharges);
 		return transactions;
 	}
 
@@ -170,6 +179,21 @@ public class CurrentAccount implements Credentials {
 
 	public List<FavoritableAction> getFavoriteActions() {
 		return this.favoriteActions;
+	}
+	
+	public List<CellPhoneRecharge> getCellPhoneRecharges() {
+		return cellPhoneRecharges;
+	}
+	
+	public CellPhoneRecharge rechargeCellPhone(OperationLocation location,
+			String phoneCarrier,String phoneNumber, double amount) throws BusinessException {
+		withdrawalAmount(amount);
+		
+		CellPhoneRecharge cellPhoneRecharge = new CellPhoneRecharge(location, this, phoneCarrier, phoneNumber, amount);
+		
+		this.cellPhoneRecharges.add(cellPhoneRecharge);
+
+		return cellPhoneRecharge;
 	}
 
 }

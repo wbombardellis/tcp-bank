@@ -6,6 +6,7 @@ package bank.business;
 import java.util.Date;
 import java.util.List;
 
+import bank.business.domain.CellPhoneRecharge;
 import bank.business.domain.CurrentAccount;
 import bank.business.domain.Deposit;
 import bank.business.domain.Transaction;
@@ -17,11 +18,12 @@ import bank.ui.text.command.FavoritableAction;
  * @author Ingrid Nunes
  * 
  */
-public interface AccountOperationService {
+public interface AccountOperationService
+{
 
 	public Deposit deposit(long operationLocation, long branch,
-			long accountNumber, long envelope, double amount)
-			throws BusinessException;
+							long accountNumber, long envelope, double amount)
+							throws BusinessException;
 
 	public double getBalance(long branch, long accountNumber)
 			throws BusinessException;
