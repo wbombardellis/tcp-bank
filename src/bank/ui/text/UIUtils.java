@@ -184,5 +184,22 @@ public class UIUtils {
 		}
 		return value;
 	}
+	
+	public Boolean readConfirmation(String yes, String no) {
+		String value = null;
+		try {
+			do{
+				value = reader.readLine();
+				if (value.equals(yes))
+					return new Boolean(true);
+				else if (value.equals(no))
+					return new Boolean(false);
+			}while(value!=yes && value!=no);
+			
+		} catch (Exception e) {
+			handleUnexceptedError(e);
+		}
+		return null;
+	}
 
 }

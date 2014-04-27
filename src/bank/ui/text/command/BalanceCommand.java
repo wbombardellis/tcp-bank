@@ -10,14 +10,23 @@ import bank.ui.text.BankTextInterface;
  * @author ingrid
  *
  */
-public class BalanceCommand  extends Command {
+public class BalanceCommand  extends Command implements FavoritableAction {
 
-	private final AccountOperationService accountOperationService;
+	private AccountOperationService accountOperationService;
 
 	public BalanceCommand(BankTextInterface bankInterface,
 			AccountOperationService accountOperationService) {
 		super(bankInterface);
 		this.accountOperationService = accountOperationService;
+	}
+	
+	public void setAccountOperationService(
+			AccountOperationService accountOperationService) {
+		this.accountOperationService = accountOperationService;
+	}
+	
+	public void setBankInteferface(BankTextInterface bankInterface){
+		this.bankInterface = bankInterface;
 	}
 
 	@Override
@@ -30,6 +39,21 @@ public class BalanceCommand  extends Command {
 		System.out
 				.println(getTextManager().getText("balance") + ": "
 				+ balance);
+	}
+
+	@Override
+	public void executePreset() throws Exception {
+		execute();
+	}
+
+	@Override
+	public String getAuxiliarInfoText() {
+		return "";
+	}
+	
+	@Override
+	public BalanceCommand clone(){
+		return new BalanceCommand(bankInterface, accountOperationService);
 	}
 
 }

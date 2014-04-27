@@ -11,6 +11,7 @@ import bank.business.domain.Deposit;
 import bank.business.domain.Transaction;
 import bank.business.domain.Transfer;
 import bank.business.domain.Withdrawal;
+import bank.ui.text.command.FavoritableAction;
 
 /**
  * @author Ingrid Nunes
@@ -40,5 +41,13 @@ public interface AccountOperationService {
 
 	public Withdrawal withdrawal(long operationLocation, long branch,
 			long accountNumber, double amount) throws BusinessException;
+	
+	public void addFavoriteAction(long branch, long accountNumber, FavoritableAction action) throws BusinessException;
+	
+	public List<FavoritableAction> getFavoriteActions(long branch, long accountNumber) throws Exception;
+	
+	public void removeFavoriteAction(long branch, long accountNumber, FavoritableAction action) throws Exception;
+
+
 
 }

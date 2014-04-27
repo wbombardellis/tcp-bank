@@ -21,6 +21,7 @@ import bank.business.domain.CurrentAccountId;
 import bank.business.domain.Employee;
 import bank.business.domain.OperationLocation;
 import bank.business.domain.Transaction;
+import bank.ui.text.command.DepositCommand;
 
 /**
  * @author Ingrid Nunes
@@ -127,6 +128,10 @@ public class Database {
 
 				cal.add(Calendar.MONTH, -1);
 			}
+			
+			//Favorite Actions
+			ca1.addFavoriteAction(new DepositCommand(1L, 200.0));
+			
 		} catch (Exception e) {
 			log.error(e);
 			e.printStackTrace();

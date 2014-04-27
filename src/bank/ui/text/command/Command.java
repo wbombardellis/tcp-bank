@@ -11,7 +11,7 @@ import bank.ui.text.UIUtils;
  */
 public abstract class Command implements UIAction {
 
-	protected final BankTextInterface bankInterface;
+	protected BankTextInterface bankInterface;
 	private boolean isEnabled;
 
 	protected Command(BankTextInterface bankInterface) {

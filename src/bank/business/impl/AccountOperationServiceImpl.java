@@ -21,6 +21,7 @@ import bank.business.domain.Transaction;
 import bank.business.domain.Transfer;
 import bank.business.domain.Withdrawal;
 import bank.data.Database;
+import bank.ui.text.command.FavoritableAction;
 
 /**
  * @author Ingrid Nunes
@@ -162,6 +163,27 @@ public class AccountOperationServiceImpl implements AccountOperationService {
 		Withdrawal withdrawal = currentAccount.withdrawal(
 				getOperationLocation(operationLocation), amount);
 		return withdrawal;
+	}
+	
+	@Override
+	public void addFavoriteAction(long branch, long accountNumber, FavoritableAction action) throws BusinessException{
+		CurrentAccount currentAccount = readCurrentAccount(branch, accountNumber);
+		
+		currentAccount.addFavoriteAction(action);
+	}
+	
+	@Override
+	public void removeFavoriteAction(long branch, long accountNumber, FavoritableAction action) throws Exception{
+		CurrentAccount currentAccount = readCurrentAccount(branch, accountNumber);
+		
+		currentAccount.removeFavoriteAction(action);
+	}
+	
+	@Override
+	public List<FavoritableAction> getFavoriteActions(long branch, long accountNumber) throws Exception{
+		CurrentAccount currentAccount = readCurrentAccount(branch, accountNumber);
+		
+		return currentAccount.getFavoriteActions();
 	}
 
 }

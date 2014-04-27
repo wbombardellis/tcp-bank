@@ -7,7 +7,7 @@ package bank.ui;
  * @author ingrid
  * 
  */
-public interface UIAction {
+public interface UIAction{
 
 	public abstract void execute() throws Exception;
 

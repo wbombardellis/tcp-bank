@@ -22,8 +22,14 @@ import bank.ui.text.UIUtils;
  * @author ingrid
  * 
  */
-public class StatementCommand extends Command {
+public class StatementCommand extends Command implements FavoritableAction {
 
+	private StatementType statementType;
+	private Integer monthOption;
+	private Date statementBegin;
+	private Date statementEnd;
+	
+	
 	private class MonthYear {
 		int month;
 		int year;
@@ -50,12 +56,32 @@ public class StatementCommand extends Command {
 
 	private static final int NUMBER_OF_POSSIBLE_MONTHS = 6;
 
-	private final AccountOperationService accountOperationService;
+	private AccountOperationService accountOperationService;
 
 	public StatementCommand(BankTextInterface bankInterface,
 			AccountOperationService accountOperationService) {
 		super(bankInterface);
 		this.accountOperationService = accountOperationService;
+	}
+	
+	public StatementCommand(BankTextInterface bankInterface,
+			AccountOperationService accountOperationService,
+			StatementType statementType, Integer monthOption,
+			Date statementBegin, Date statementEnd) {
+		this(bankInterface, accountOperationService);
+		this.statementType = statementType;
+		this.monthOption = monthOption;
+		this.statementBegin = statementBegin;
+		this.statementEnd = statementEnd;
+	}
+	
+	public void setAccountOperationService(
+			AccountOperationService accountOperationService) {
+		this.accountOperationService = accountOperationService;
+	}
+	
+	public void setBankInteferface(BankTextInterface bankInterface){
+		this.bankInterface = bankInterface;
 	}
 
 	@Override
@@ -63,6 +89,10 @@ public class StatementCommand extends Command {
 		Long branch = bankInterface.readBranchId();
 		Long accountNumber = bankInterface.readCurrentAccountNumber();
 		StatementType statementType = readStatementType();
+
+		//Save to use posteriorly
+		this.statementType = statementType;
+		
 		switch (statementType) {
 		case MONTHLY:
 			showMonthlyStatement(branch, accountNumber);
@@ -140,7 +170,11 @@ public class StatementCommand extends Command {
 		return type;
 	}
 
-	private void showMonthlyStatement(Long branch, Long accountNumber)
+	private void showMonthlyStatement(Long branch, Long accountNumber) throws Exception{
+		showMonthlyStatement(branch, accountNumber, null);
+	}
+	
+	private void showMonthlyStatement(Long branch, Long accountNumber, Integer stOption)
 			throws Exception {
 		Calendar cal = Calendar.getInstance();
 		MonthYear[] possibilities = new MonthYear[NUMBER_OF_POSSIBLE_MONTHS];
@@ -154,8 +188,16 @@ public class StatementCommand extends Command {
 			System.out.println(i + 1 + " - " + my);
 		}
 
-		Integer option = UIUtils.INSTANCE.readInteger("message.select.month",
-				1, possibilities.length);
+		Integer option;
+		if (stOption == null){
+			option = UIUtils.INSTANCE.readInteger("message.select.month",
+					1, possibilities.length);
+			//Save arguments
+			this.monthOption = option;
+		}else{
+			option = stOption;
+		}
+		
 		MonthYear chosenMY = possibilities[option - 1];
 		List<Transaction> transactions = accountOperationService
 				.getStatementByMonth(branch, accountNumber, chosenMY.month,
@@ -164,37 +206,89 @@ public class StatementCommand extends Command {
 				transactions);
 	}
 
-	private void showStatementByPeriod(Long branch, Long accountNumber)
+	private void showStatementByPeriod(Long branch, Long accountNumber) throws Exception{
+		showStatementByPeriod(branch, accountNumber, null, null);
+	}
+	
+	private void showStatementByPeriod(Long branch, Long accountNumber, Date stBegin, Date stEnd)
 			throws Exception {
-		Date begin = UIUtils.INSTANCE.readDate("date.initial", true);
-		Date end = UIUtils.INSTANCE.readDate("date.end", true);
-
-		if (begin == null || end == null) {
-			System.out.println(getTextManager().getText(
-					"message.consider.last.30.days"));
-			Calendar cal = Calendar.getInstance();
-			cal.set(Calendar.HOUR_OF_DAY,
-					cal.getActualMaximum(Calendar.HOUR_OF_DAY));
-			cal.set(Calendar.MINUTE, cal.getActualMaximum(Calendar.MINUTE));
-			cal.set(Calendar.SECOND, cal.getActualMaximum(Calendar.SECOND));
-			cal.set(Calendar.MILLISECOND,
-					cal.getActualMaximum(Calendar.MILLISECOND));
-			end = cal.getTime();
-
-			cal.add(Calendar.DAY_OF_MONTH, -30);
-			cal.set(Calendar.HOUR_OF_DAY,
-					cal.getActualMinimum(Calendar.HOUR_OF_DAY));
-			cal.set(Calendar.MINUTE, cal.getActualMinimum(Calendar.MINUTE));
-			cal.set(Calendar.SECOND, cal.getActualMinimum(Calendar.SECOND));
-			cal.set(Calendar.MILLISECOND,
-					cal.getActualMinimum(Calendar.MILLISECOND));
-			begin = cal.getTime();
+		
+		Date begin;
+		Date end;
+		//If there is no begin or end, then read it from the user
+		if (stBegin == null || stEnd == null){
+			begin = UIUtils.INSTANCE.readDate("date.initial", true);
+			end = UIUtils.INSTANCE.readDate("date.end", true);
+	
+			if (begin == null || end == null) {
+				System.out.println(getTextManager().getText(
+						"message.consider.last.30.days"));
+				Calendar cal = Calendar.getInstance();
+				cal.set(Calendar.HOUR_OF_DAY,
+						cal.getActualMaximum(Calendar.HOUR_OF_DAY));
+				cal.set(Calendar.MINUTE, cal.getActualMaximum(Calendar.MINUTE));
+				cal.set(Calendar.SECOND, cal.getActualMaximum(Calendar.SECOND));
+				cal.set(Calendar.MILLISECOND,
+						cal.getActualMaximum(Calendar.MILLISECOND));
+				end = cal.getTime();
+	
+				cal.add(Calendar.DAY_OF_MONTH, -30);
+				cal.set(Calendar.HOUR_OF_DAY,
+						cal.getActualMinimum(Calendar.HOUR_OF_DAY));
+				cal.set(Calendar.MINUTE, cal.getActualMinimum(Calendar.MINUTE));
+				cal.set(Calendar.SECOND, cal.getActualMinimum(Calendar.SECOND));
+				cal.set(Calendar.MILLISECOND,
+						cal.getActualMinimum(Calendar.MILLISECOND));
+				begin = cal.getTime();
+			}
+			//Save arguments
+			this.statementBegin = begin;
+			this.statementEnd = end;
+			
+		}else{
+			begin = stBegin;
+			end = stEnd;
 		}
 
 		List<Transaction> transactions = accountOperationService
 				.getStatementByDate(branch, accountNumber, begin, end);
 		printStatement(new CurrentAccountId(new Branch(branch), accountNumber),
 				transactions);
+	}
+
+	@Override
+	public void executePreset() throws Exception {
+		Long branch = bankInterface.readBranchId();
+		Long accountNumber = bankInterface.readCurrentAccountNumber();
+
+		switch (statementType) {
+		case MONTHLY:
+			showMonthlyStatement(branch, accountNumber, monthOption);
+			break;
+		case PERIOD:
+			showStatementByPeriod(branch, accountNumber, statementBegin, statementEnd);
+			break;
+		}
+		
+	}
+
+	@Override
+	public String getAuxiliarInfoText() {
+		switch (statementType) {
+			case MONTHLY:
+				return monthOption.toString();
+
+			case PERIOD:
+				return UIUtils.INSTANCE.formatDateTime(statementBegin) + " a " + UIUtils.INSTANCE.formatDateTime(statementEnd);
+
+			default:
+				return null;
+		}
+	}
+	
+	@Override
+	public StatementCommand clone(){
+		return new StatementCommand(bankInterface, accountOperationService, statementType, monthOption, statementBegin, statementEnd);
 	}
 
 }

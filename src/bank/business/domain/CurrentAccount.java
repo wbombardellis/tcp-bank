@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bank.business.BusinessException;
+import bank.ui.text.command.FavoritableAction;
 
 /**
  * @author Ingrid Nunes
@@ -17,6 +18,7 @@ public class CurrentAccount implements Credentials {
 	private CurrentAccountId id;
 	private List<Transfer> transfers;
 	private List<Withdrawal> withdrawals;
+	private List<FavoritableAction> favoriteActions;
 
 	public CurrentAccount(Branch branch, long number, Client client) {
 		this.id = new CurrentAccountId(branch, number);
@@ -26,6 +28,7 @@ public class CurrentAccount implements Credentials {
 		this.deposits = new ArrayList<>();
 		this.transfers = new ArrayList<>();
 		this.withdrawals = new ArrayList<>();
+		this.favoriteActions = new ArrayList<>();
 	}
 
 	public CurrentAccount(Branch branch, long number, Client client,
@@ -145,6 +148,28 @@ public class CurrentAccount implements Credentials {
 		}
 
 		this.balance -= amount;
+	}
+
+	public void addFavoriteAction(FavoritableAction action) {
+		if (action != null){			
+			if (this.favoriteActions.add(action) == false)
+				throw new IllegalArgumentException("exception.invalid.commandArgument");
+		}else{
+			throw new IllegalArgumentException("exception.invalid.commandArgument");
+		}
+	}
+	
+	public void removeFavoriteAction(FavoritableAction action) {
+		if (action != null){			
+			if (this.favoriteActions.remove(action) == false)
+				throw new IllegalArgumentException("exception.invalid.commandArgument");
+		}else{
+			throw new IllegalArgumentException("exception.invalid.commandArgument");
+		}
+	}
+
+	public List<FavoritableAction> getFavoriteActions() {
+		return this.favoriteActions;
 	}
 
 }
