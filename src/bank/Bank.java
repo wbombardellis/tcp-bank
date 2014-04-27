@@ -18,7 +18,7 @@ import bank.ui.BankInterface;
  * @author Ingrid Nunes
  * 
  */
-public abstract class Bank 
+public abstract class Bank
 {
 
 	public static final String PROPERTIES_FILE_LOG4J = "log4j.properties";
