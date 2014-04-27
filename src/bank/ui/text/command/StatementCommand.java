@@ -10,6 +10,7 @@ import java.util.List;
 import bank.business.AccountOperationService;
 import bank.business.domain.ATM;
 import bank.business.domain.Branch;
+import bank.business.domain.CellPhoneRecharge;
 import bank.business.domain.CurrentAccountId;
 import bank.business.domain.Deposit;
 import bank.business.domain.Transaction;
@@ -145,6 +146,9 @@ public class StatementCommand extends Command implements FavoritableAction {
 				sb.append(transaction.getAmount());
 			} else if (transaction instanceof Withdrawal) {
 				sb.append("\t\t\t");
+				sb.append("- ").append(transaction.getAmount());
+			} else if (transaction instanceof CellPhoneRecharge) {
+				sb.append(((CellPhoneRecharge)transaction).getPhoneNumber()).append("\t");
 				sb.append("- ").append(transaction.getAmount());
 			}
 			sb.append("\n");

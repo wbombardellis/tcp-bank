@@ -50,6 +50,7 @@ public interface AccountOperationService
 	
 	public void removeFavoriteAction(long branch, long accountNumber, FavoritableAction action) throws Exception;
 
-
+	public CellPhoneRecharge rechargeCellPhone(long operationLocation, long branch,
+				long accountNumber, String phoneCarrier, String phoneNumber, double amount) throws BusinessException;
 
 }

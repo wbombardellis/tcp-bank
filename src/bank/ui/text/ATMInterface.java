@@ -39,7 +39,7 @@ public class ATMInterface extends BankTextInterface {
 	public ATMInterface(ATM atm, AccountOperationService accountOperationService) {
 		super(atm);
 		this.accountService = accountOperationService;
-		this.favoritableActions = new ArrayList<>(7);
+		this.favoritableActions = new ArrayList<>(8);
 		this.favoriteActions = new HashMap<>();
 		
 		this.addAction("L", new ClientLoginCommand(this,accountOperationService), false);
@@ -49,7 +49,7 @@ public class ATMInterface extends BankTextInterface {
 		this.addAction("W",
 				new WithdrawalCommand(this, accountOperationService), true);
 		this.addAction("T", new TransferCommand(this, accountOperationService), true);
-		this.addAction("R", new CellPhoneRechargeCommand(this, accountOperationService));
+		this.addAction("R", new CellPhoneRechargeCommand(this, accountOperationService), true);
 		this.addAction("O", new LogoutCommand(this), false);
 		
 	}
