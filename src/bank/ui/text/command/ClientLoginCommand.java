@@ -9,7 +9,8 @@ import bank.ui.text.UIUtils;
  * @author Ingrid Nunes
  * 
  */
-public class ClientLoginCommand extends Command {
+public class ClientLoginCommand extends Command
+{
 
 	private final AccountOperationService accountOperationService;
 

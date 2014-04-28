@@ -19,7 +19,8 @@ public class Deposit extends Transaction
 	/**
 	 * @return the envelope
 	 */
-	public long getEnvelope() {
+	public long getEnvelope()
+	{
 		return envelope;
 	}
 

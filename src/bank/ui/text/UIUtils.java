@@ -31,7 +31,8 @@ public class UIUtils {
 	private final SimpleDateFormat sdtf;
 	private final TextManager textManager;
 
-	private UIUtils() {
+	private UIUtils()
+	{
 		this.log = LogFactory.getLog(getClass());
 		this.reader = new BufferedReader(new InputStreamReader(System.in));
 		this.textManager = new TextManager(PROPERTY_RESOURCE_BUNDLE);
@@ -46,18 +47,21 @@ public class UIUtils {
 	/**
 	 * @return the textManager
 	 */
-	public TextManager getTextManager() {
+	public TextManager getTextManager()
+	{
 		return textManager;
 	}
 
-	public void handleUnexceptedError(Exception e) {
+	public void handleUnexceptedError(Exception e)
+	{
 		System.out.println(textManager.getText("exception.unexpected"));
 		log.error(e);
 		e.printStackTrace();
 		System.exit(-1);
 	}
 
-	public String propertyToString(String field, Date value) {
+	public String propertyToString(String field, Date value)
+	{
 		return propertyToString(field, sdf.format(value));
 	}
 

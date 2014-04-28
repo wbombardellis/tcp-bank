@@ -30,8 +30,8 @@ import bank.ui.text.command.DepositCommand;
  * @author Ingrid Nunes
  * 
  */
-public class Database {
-
+public class Database
+{
 	private final Map<CurrentAccountId, CurrentAccount> currentAccounts;
 	private final Map<String, Employee> employees;
 	private final Log log;
@@ -80,6 +80,11 @@ public class Database {
 	public List<Deposit> getSubmitedDeposits()
 	{
 		return this.submitedDeposits;
+	}
+	
+	public Deposit getFirstSubmitedDeposit()
+	{
+		return this.submitedDeposits.get(0);
 	}
 
 	public long getNextCurrentAccountNumber() {

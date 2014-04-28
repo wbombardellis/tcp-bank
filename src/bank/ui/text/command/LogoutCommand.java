@@ -8,7 +8,8 @@ import bank.ui.text.BankTextInterface;
  */
 public class LogoutCommand extends Command {
 
-	public LogoutCommand(BankTextInterface bankInterface) {
+	public LogoutCommand(BankTextInterface bankInterface)
+	{
 		super(bankInterface);
 	}
 

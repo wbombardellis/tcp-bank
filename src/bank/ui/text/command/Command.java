@@ -9,29 +9,35 @@ import bank.ui.text.UIUtils;
  * @author Ingrid Nunes
  * 
  */
-public abstract class Command implements UIAction {
+public abstract class Command implements UIAction
+{
 
 	protected BankTextInterface bankInterface;
 	private boolean isEnabled;
 
-	protected Command(BankTextInterface bankInterface) {
+	protected Command(BankTextInterface bankInterface)
+	{
 		this(bankInterface, false);
 	}
 
-	protected Command(BankTextInterface bankInterface, boolean isEnabled) {
+	protected Command(BankTextInterface bankInterface, boolean isEnabled)
+	{
 		this.bankInterface = bankInterface;
 		this.isEnabled = isEnabled;
 	}
 
-	protected TextManager getTextManager() {
+	protected TextManager getTextManager()
+	{
 		return UIUtils.INSTANCE.getTextManager();
 	}
 
-	public boolean isEnabled() {
+	public boolean isEnabled()
+	{
 		return isEnabled;
 	}
 
-	public void setEnabled(boolean isEnabled) {
+	public void setEnabled(boolean isEnabled)
+	{
 		this.isEnabled = isEnabled;
 	}
 

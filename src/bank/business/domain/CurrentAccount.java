@@ -56,21 +56,21 @@ public class CurrentAccount implements Credentials {
 		}
 		else // if it isn't, deposit instantly.
 		{
-			depositAmount(amount, deposit);
+			depositAmount(deposit);
 		}		
 		return deposit;
 	}
 
-	private void depositAmount(double amount, Deposit deposit) throws BusinessException
+	public void depositAmount(Deposit deposit) throws BusinessException
 	{
-		if (!isValidAmount(amount))
+		if (!isValidAmount(deposit.getAmount()))
 		{
 			throw new BusinessException("exception.invalid.amount");
 		}
 		else
 		{
 			this.verifiedDeposits.add(deposit);
-			this.balance += amount;
+			this.balance += deposit.getAmount();
 		}
 	}
 	

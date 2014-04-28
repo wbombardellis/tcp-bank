@@ -48,14 +48,16 @@ public class TextManager {
 	/**
 	 * @return the baseName
 	 */
-	public String getBaseName() {
+	public String getBaseName()
+	{
 		return baseName;
 	}
 
 	/**
 	 * @return the bundle
 	 */
-	public ResourceBundle getBundle() {
+	public ResourceBundle getBundle()
+	{
 		return bundle;
 	}
 
