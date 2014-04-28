@@ -99,6 +99,11 @@ public class AccountManagementServiceImpl implements AccountManagementService
 		}
 	}
 	
+	public Deposit searchSubmitedDepositByEnvelope(long envelope)
+	{
+		return database.searchSubmitedDepositByEnvelope(envelope);
+	}
+	
 	public void removeFromSubmitedList(Deposit deposit)
 	{
 		database.removeFromSubmitedDeposits(deposit);

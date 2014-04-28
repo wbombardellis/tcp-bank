@@ -30,5 +30,7 @@ public interface AccountManagementService
 	
 	public void removeFromSubmitedList(Deposit deposit);
 	
+	public Deposit searchSubmitedDepositByEnvelope(long envelope);
+	
 	public CurrentAccount getCurrentAccount(CurrentAccountId currentAccountId);
 }

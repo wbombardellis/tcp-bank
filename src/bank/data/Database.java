@@ -100,6 +100,18 @@ public class Database
 			return this.submitedDeposits.get(0);
 		}
 	}
+	
+	public Deposit searchSubmitedDepositByEnvelope(long envelope)
+	{
+		for (Deposit deposit : submitedDeposits)
+		{
+			if (deposit.getEnvelope() == envelope)
+			{
+				return deposit;
+			}
+		}
+		return null;
+	}
 
 	public long getNextCurrentAccountNumber() {
 		// I'm assuming that numbers are sequential and no deletions are

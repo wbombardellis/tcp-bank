@@ -6,25 +6,27 @@ import bank.business.domain.Deposit;
 import bank.ui.text.BankTextInterface;
 import bank.ui.text.UIUtils;
 
-public class ManageSubmitedDepositsCommand extends Command
+public class VerifyByEnvelopeCommand extends Command
 {
 	private AccountManagementService accountManagementService;
-	
-	public ManageSubmitedDepositsCommand(BankTextInterface bankInterface, AccountManagementService accountManagementService)
+
+	public VerifyByEnvelopeCommand(BankTextInterface bankInterface, AccountManagementService accountManagementService)
 	{
 		super(bankInterface);
 		this.accountManagementService = accountManagementService;
 	}
 
-	public void execute() throws Exception
+	public void execute() throws Exception 
 	{
 		UIUtils uiUtils = UIUtils.INSTANCE;
 		
-		Deposit toManage = accountManagementService.getFirstSubmitedDeposit();
+		long envelope = uiUtils.readLong("envelope");
+		
+		Deposit toManage = accountManagementService.searchSubmitedDepositByEnvelope(envelope);
 		
 		if (toManage == null)
 		{
-			System.out.println(getTextManager().getText("exception.empty.list"));
+			System.out.println(getTextManager().getText("exception.register.not.found"));
 		}
 		else
 		{
@@ -52,7 +54,7 @@ public class ManageSubmitedDepositsCommand extends Command
 			}
 			
 			System.out.println(getTextManager().getText("message.operation.succesfull"));
-
 		}
 	}
+
 }
