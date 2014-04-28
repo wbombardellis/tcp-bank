@@ -22,27 +22,33 @@ public class ManageSubmitedDepositsCommand extends Command
 		
 		Deposit toManage = accountManagementService.getFirstSubmitedDeposit();
 		
-		System.out.println(getTextManager().getText("message.deposit.information"));
-		System.out.println(uiUtils.propertyToString("envelope", toManage.getEnvelope()));
-		System.out.println(uiUtils.propertyToString("account.number", toManage.getAccount().getId().getNumber()));
-		System.out.println(uiUtils.propertyToString("amount", toManage.getAmount()));
-		System.out.println(uiUtils.propertyToString("locationNumber", toManage.getLocation().getNumber()));
-		
-		System.out.print(getTextManager().getText("message.validate.deposit"));
-		boolean validate = uiUtils.readConfirmation("S", "N");
-		
-		accountManagementService.removeFromSubmitedList(toManage);
-		CurrentAccount currentAccount = accountManagementService.getCurrentAccount(toManage.getAccount().getId());
-		currentAccount.removeFromSubmitedDeposits(toManage);
-		
-		if (validate == true)
+		if (toManage == null)
 		{
-			currentAccount.depositAmount(toManage);
+			System.out.println(getTextManager().getText("exception.empty.list"));
 		}
 		else
 		{
-			currentAccount.addToRejectedDeposits(toManage);
+			System.out.println(getTextManager().getText("message.deposit.information"));
+			System.out.println(uiUtils.propertyToString("envelope", toManage.getEnvelope()));
+			System.out.println(uiUtils.propertyToString("account.number", toManage.getAccount().getId().getNumber()));
+			System.out.println(uiUtils.propertyToString("amount", toManage.getAmount()));
+			System.out.println(uiUtils.propertyToString("locationNumber", toManage.getLocation().getNumber()));
+			
+			System.out.print(getTextManager().getText("message.validate.deposit"));
+			boolean validate = uiUtils.readConfirmation("S", "N");
+			
+			accountManagementService.removeFromSubmitedList(toManage);
+			CurrentAccount currentAccount = accountManagementService.getCurrentAccount(toManage.getAccount().getId());
+			currentAccount.removeFromSubmitedDeposits(toManage);
+			
+			if (validate == true)
+			{
+				currentAccount.depositAmount(toManage);
+			}
+			else
+			{
+				currentAccount.addToRejectedDeposits(toManage);
+			}
 		}
 	}
-	
 }

@@ -73,13 +73,30 @@ public class AccountManagementServiceImpl implements AccountManagementService
 	
 	public Deposit getFirstSubmitedDeposit()
 	{
-		return database.getFirstSubmitedDeposit();
+		try
+		{
+			Deposit first = database.getFirstSubmitedDeposit();
+			return first;
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 	
 	public List<Deposit> getSubmitedDepositsList()
 	{
-		List<Deposit> submitedList = database.getSubmitedDeposits();
-		return submitedList;
+		try
+		{
+			List<Deposit> submitedList = database.getSubmitedDeposits();
+			return submitedList;
+		} 
+		catch (Exception e)
+		{
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 	
 	public void removeFromSubmitedList(Deposit deposit)

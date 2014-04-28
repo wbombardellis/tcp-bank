@@ -77,14 +77,28 @@ public class Database
 		return employees.get(username);
 	}
 	
-	public List<Deposit> getSubmitedDeposits()
+	public List<Deposit> getSubmitedDeposits() throws Exception
 	{
-		return this.submitedDeposits;
+		if (this.submitedDeposits.isEmpty())
+		{
+			throw new Exception("Empty.List");
+		}
+		else
+		{
+			return this.submitedDeposits;
+		}
 	}
 	
-	public Deposit getFirstSubmitedDeposit()
+	public Deposit getFirstSubmitedDeposit() throws Exception
 	{
-		return this.submitedDeposits.get(0);
+		if (this.submitedDeposits.isEmpty())
+		{
+			throw new Exception("Empty.List");
+		}
+		else
+		{
+			return this.submitedDeposits.get(0);
+		}
 	}
 
 	public long getNextCurrentAccountNumber() {
