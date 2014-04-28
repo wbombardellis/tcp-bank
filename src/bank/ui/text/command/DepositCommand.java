@@ -24,21 +24,23 @@ public class DepositCommand extends Command implements FavoritableAction {
 	
 	public DepositCommand(BankTextInterface bankInterface,
 			AccountOperationService accountOperationService,
-			Long envelope, Double amount) {
+			Long envelope, Double amount)
+	{
 		this(bankInterface, accountOperationService);
 		this.envelope = envelope;
 		this.amount = amount;
 	}
 	
-	public DepositCommand(Long envelope, Double amount){
+	public DepositCommand(Long envelope, Double amount)
+	{
 		super(null);
 		this.accountOperationService = null;
 		this.envelope = envelope;
 		this.amount = amount;
 	}
 
-	public void setAccountOperationService(
-			AccountOperationService accountOperationService) {
+	public void setAccountOperationService(AccountOperationService accountOperationService)
+	{
 		this.accountOperationService = accountOperationService;
 	}
 	
@@ -46,7 +48,8 @@ public class DepositCommand extends Command implements FavoritableAction {
 		this.bankInterface = bankInterface;
 	}
 	
-	private void kernelExecute(Long branch, Long accountNumber, Long envelope, Double amount) throws Exception{
+	private void kernelExecute(Long branch, Long accountNumber, Long envelope, Double amount) throws Exception
+	{
 		Deposit deposit = accountOperationService.deposit(bankInterface
 				.getOperationLocation().getNumber(), branch, accountNumber,
 				envelope, amount);
@@ -58,7 +61,8 @@ public class DepositCommand extends Command implements FavoritableAction {
 	}
 
 	@Override
-	public void execute() throws Exception {
+	public void execute() throws Exception
+	{
 		Long branch = bankInterface.readBranchId();
 		Long accountNumber = bankInterface.readCurrentAccountNumber();
 		Long envelope = UIUtils.INSTANCE.readLong("envelope");
@@ -72,7 +76,8 @@ public class DepositCommand extends Command implements FavoritableAction {
 	}
 	
 	@Override
-	public void executePreset() throws Exception{
+	public void executePreset() throws Exception
+	{
 		Long branch = bankInterface.readBranchId();
 		Long accountNumber = bankInterface.readCurrentAccountNumber();
 		
@@ -80,7 +85,8 @@ public class DepositCommand extends Command implements FavoritableAction {
 	}
 
 	@Override
-	public String getAuxiliarInfoText() {
+	public String getAuxiliarInfoText()
+	{
 		return envelope.toString() + ", " + amount.toString();
 	}
 	

@@ -12,6 +12,7 @@ import java.util.List;
 
 import bank.business.AccountOperationService;
 import bank.business.BusinessException;
+import bank.business.domain.ATM;
 import bank.business.domain.Branch;
 import bank.business.domain.CellPhoneRecharge;
 import bank.business.domain.CurrentAccount;
@@ -32,18 +33,25 @@ public class AccountOperationServiceImpl implements AccountOperationService {
 
 	private final Database database;
 
-	public AccountOperationServiceImpl(Database database) {
+	public AccountOperationServiceImpl(Database database)
+	{
 		this.database = database;
 	}
 
 	@Override
 	public Deposit deposit(long operationLocation, long branch,
-			long accountNumber, long envelope, double amount)
-			throws BusinessException {
-		CurrentAccount currentAccount = readCurrentAccount(branch,
-				accountNumber);
-		Deposit deposit = currentAccount.deposit(
-				getOperationLocation(operationLocation), envelope, amount);
+			long accountNumber, long envelope, double amount) throws BusinessException
+	{
+		CurrentAccount currentAccount = readCurrentAccount(branch,accountNumber);
+		Deposit deposit = currentAccount.deposit(getOperationLocation(operationLocation), envelope, amount);
+		
+		// If the operation is in an ATM, submit deposit to the database
+		if ((getOperationLocation(operationLocation)).getClass() == ATM.class)
+		{
+			database.addToSubmitedDeposits(deposit);
+		}
+		// else, do nothing (no need to update the database)
+		
 		return deposit;
 	}
 

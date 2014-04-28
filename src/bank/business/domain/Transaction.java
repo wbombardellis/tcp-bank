@@ -55,7 +55,8 @@ public abstract class Transaction {
 	 * @param date
 	 *            the date to set
 	 */
-	public void setDate(Date date) {
+	public void setDate(Date date)
+	{
 		this.date = date;
 	}
 

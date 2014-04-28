@@ -24,15 +24,16 @@ public class AccountManagementServiceImpl implements AccountManagementService {
 	private final Database database;
 	private RandomString random;
 
-	public AccountManagementServiceImpl(Database database) {
+	public AccountManagementServiceImpl(Database database)
+	{
 		this.database = database;
 		this.random = new RandomString(8);
 	}
 
 	@Override
 	public CurrentAccount createCurrentAccount(long branch, String name,
-			String lastName, int cpf, Date birthday, double balance)
-			throws BusinessException {
+			String lastName, int cpf, Date birthday, double balance) throws BusinessException
+	{
 		OperationLocation operationLocation = database
 				.getOperationLocation(branch);
 		if (operationLocation == null || !(operationLocation instanceof Branch)) {

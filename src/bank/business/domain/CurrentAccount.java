@@ -14,7 +14,9 @@ public class CurrentAccount implements Credentials {
 
 	private double balance;
 	private Client client;
-	private List<Deposit> deposits;
+	private List<Deposit> submitedDeposits;
+	private List<Deposit> rejectedDeposits;
+	private List<Deposit> verifiedDeposits;
 	private CurrentAccountId id;
 	private List<Transfer> transfers;
 	private List<Withdrawal> withdrawals;
@@ -27,7 +29,9 @@ public class CurrentAccount implements Credentials {
 		branch.addAccount(this);
 		this.client = client;
 		client.setAccount(this);
-		this.deposits = new ArrayList<>();
+		this.submitedDeposits = new ArrayList<>();
+		this.rejectedDeposits = new ArrayList<>();
+		this.verifiedDeposits = new ArrayList<>();
 		this.transfers = new ArrayList<>();
 		this.withdrawals = new ArrayList<>();
 		this.favoriteActions = new ArrayList<>();
@@ -43,14 +47,33 @@ public class CurrentAccount implements Credentials {
 
 	public Deposit deposit(OperationLocation location, long envelope,double amount) throws BusinessException
 	{
-		depositAmount(amount);
-
 		Deposit deposit = new Deposit(location, this, envelope, amount);
-		this.deposits.add(deposit);
-
+		
+		// If the operation is from an ATM, submit it to verification
+		if (location.getClass() == ATM.class)
+		{
+			this.submitedDeposits.add(deposit);
+		}
+		else // if it isn't, deposit instantly.
+		{
+			depositAmount(amount, deposit);
+		}		
 		return deposit;
 	}
 
+	private void depositAmount(double amount, Deposit deposit) throws BusinessException
+	{
+		if (!isValidAmount(amount))
+		{
+			throw new BusinessException("exception.invalid.amount");
+		}
+		else
+		{
+			this.verifiedDeposits.add(deposit);
+			this.balance += amount;
+		}
+	}
+	
 	private void depositAmount(double amount) throws BusinessException
 	{
 		if (!isValidAmount(amount))
@@ -61,7 +84,7 @@ public class CurrentAccount implements Credentials {
 		{
 			this.balance += amount;
 		}
-}
+	}
 
 	/**
 	 * @return the balance
@@ -81,7 +104,7 @@ public class CurrentAccount implements Credentials {
 	 * @return the deposits
 	 */
 	public List<Deposit> getDeposits() {
-		return deposits;
+		return verifiedDeposits;
 	}
 
 	/**
@@ -92,9 +115,9 @@ public class CurrentAccount implements Credentials {
 	}
 
 	public List<Transaction> getTransactions() {
-		List<Transaction> transactions = new ArrayList<>(deposits.size()
+		List<Transaction> transactions = new ArrayList<>(verifiedDeposits.size()
 				+ withdrawals.size() + transfers.size());
-		transactions.addAll(deposits);
+		transactions.addAll(verifiedDeposits);
 		transactions.addAll(withdrawals);
 		transactions.addAll(transfers);
 		transactions.addAll(cellPhoneRecharges);
@@ -147,7 +170,8 @@ public class CurrentAccount implements Credentials {
 		return withdrawal;
 	}
 
-	private void withdrawalAmount(double amount) throws BusinessException {
+	private void withdrawalAmount(double amount) throws BusinessException
+	{
 		if (!isValidAmount(amount)) {
 			throw new BusinessException("exception.invalid.amount");
 		}
@@ -157,6 +181,26 @@ public class CurrentAccount implements Credentials {
 		}
 
 		this.balance -= amount;
+	}
+	
+	public void addToSubmitedDeposits(Deposit deposit)
+	{
+		this.submitedDeposits.add(deposit);
+	}
+	
+	public void removeFromSubmitedDeposits(Deposit deposit)
+	{
+		this.submitedDeposits.remove(deposit);
+	}
+	
+	public void addToVerifiedDeposits(Deposit deposit)
+	{
+		this.verifiedDeposits.add(deposit);
+	}
+	
+	public void addToRejectedDeposits(Deposit deposit)
+	{
+		this.rejectedDeposits.add(deposit);
 	}
 
 	public void addFavoriteAction(FavoritableAction action) {

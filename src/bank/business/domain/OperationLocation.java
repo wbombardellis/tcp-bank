@@ -4,16 +4,18 @@ package bank.business.domain;
  * @author Ingrid Nunes
  * 
  */
-public abstract class OperationLocation {
-
+public abstract class OperationLocation
+{
 	private long number;
 
-	public OperationLocation(long number) {
+	public OperationLocation(long number)
+	{
 		this.number = number;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)

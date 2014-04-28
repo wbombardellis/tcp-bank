@@ -3,10 +3,12 @@
  */
 package bank.data;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -16,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import bank.business.domain.ATM;
 import bank.business.domain.Branch;
 import bank.business.domain.Client;
+import bank.business.domain.Deposit;
 import bank.business.domain.CurrentAccount;
 import bank.business.domain.CurrentAccountId;
 import bank.business.domain.Employee;
@@ -33,22 +36,28 @@ public class Database {
 	private final Map<String, Employee> employees;
 	private final Log log;
 	private final Map<Long, OperationLocation> operationLocations;
+	private final List<Deposit> submitedDeposits;
 
-	public Database() {
+	public Database()
+	{
 		this(true);
 	}
 
-	public Database(boolean initData) {
+	public Database(boolean initData)
+	{
 		this.log = LogFactory.getLog(getClass());
 		this.operationLocations = new HashMap<>();
 		this.employees = new HashMap<>();
 		this.currentAccounts = new HashMap<>();
-		if (initData) {
+		this.submitedDeposits = new ArrayList<Deposit>();
+		if (initData)
+		{
 			initData();
 		}
 	}
 
-	public Collection<CurrentAccount> getAllCurrentAccounts() {
+	public Collection<CurrentAccount> getAllCurrentAccounts()
+	{
 		return this.currentAccounts.values();
 	}
 
@@ -67,6 +76,11 @@ public class Database {
 	public Employee getEmployee(String username) {
 		return employees.get(username);
 	}
+	
+	public List<Deposit> getSubmitedDeposits()
+	{
+		return this.submitedDeposits;
+	}
 
 	public long getNextCurrentAccountNumber() {
 		// I'm assuming that numbers are sequential and no deletions are
@@ -78,8 +92,10 @@ public class Database {
 		return operationLocations.get(number);
 	}
 
-	private void initData() {
-		try {
+	private void initData()
+	{
+		try
+		{
 			// Operation Location
 			int olId = 0;
 			Branch b1 = new Branch(++olId, "Campus Vale");
@@ -111,20 +127,15 @@ public class Database {
 			// Transactions
 			Random r = new Random(System.currentTimeMillis());
 			Calendar cal = Calendar.getInstance();
-			for (int i = 0; i < 8; i++) {
-				changeDate(
-						ca1.deposit(b1, r.nextInt(10000), r.nextDouble() * 150),
-						r, cal);
+			for (int i = 0; i < 8; i++)
+			{
+				changeDate(ca1.deposit(b1, r.nextInt(10000), r.nextDouble() * 150),	r, cal);
 				changeDate(ca1.withdrawal(atm1, r.nextDouble() * 100), r, cal);
-				changeDate(ca1.transfer(atm2, ca2, r.nextDouble() * 100), r,
-						cal);
+				changeDate(ca1.transfer(atm2, ca2, r.nextDouble() * 100), r, cal);
 
-				changeDate(
-						ca2.deposit(b2, r.nextInt(10000), r.nextDouble() * 150),
-						r, cal);
+				changeDate(ca2.deposit(b2, r.nextInt(10000), r.nextDouble() * 150), r, cal);
 				changeDate(ca2.withdrawal(atm2, r.nextDouble() * 100), r, cal);
-				changeDate(ca2.transfer(atm3, ca1, r.nextDouble() * 100), r,
-						cal);
+				changeDate(ca2.transfer(atm3, ca1, r.nextDouble() * 100), r, cal);
 
 				cal.add(Calendar.MONTH, -1);
 			}
@@ -132,7 +143,9 @@ public class Database {
 			//Favorite Actions
 			ca1.addFavoriteAction(new DepositCommand(1L, 200.0));
 			
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			log.error(e);
 			e.printStackTrace();
 		}
@@ -153,9 +166,20 @@ public class Database {
 		this.employees.put(employee.getUsername(), employee);
 	}
 
-	public void save(OperationLocation operationLocation) {
+	public void save(OperationLocation operationLocation)
+	{
 		this.operationLocations.put(operationLocation.getNumber(),
 				operationLocation);
+	}
+	
+	public void addToSubmitedDeposits(Deposit deposit)
+	{
+		this.submitedDeposits.add(deposit);
+	}
+	
+	public void removeFromSubmitedDeposits(Deposit deposit)
+	{
+		this.submitedDeposits.remove(deposit);
 	}
 
 }
